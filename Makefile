@@ -1,6 +1,7 @@
 # Compiler settings
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -Iinclude
+# Added -MMD and -MP for automatic dependency generation
+CFLAGS = -Wall -Wextra -std=c11 -Iinclude -MMD -MP
 LDFLAGS = -lSDL2
 
 # Directories
@@ -11,6 +12,8 @@ BUILD_DIR = build
 TARGET = functionPlotter
 SRCS = $(SRC_DIR)/functionPlotter.c $(SRC_DIR)/plottify.c
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+# New variable for dependency files (.d)
+DEPS = $(OBJS:.o=.d)
 
 # Default target to build the program
 all: $(TARGET)
@@ -27,3 +30,6 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 # Rule to clean up compiled files
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
+
+# Include the generated dependency files
+-include $(DEPS)

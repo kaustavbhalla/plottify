@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
-  printf("Hello plotter\n");
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    printf("Usage %s <expression>\n", argv[0]);
+    return 0;
+  }
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     printf("SDL_Init Error: %s\n", SDL_GetError());
