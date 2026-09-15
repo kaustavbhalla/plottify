@@ -24,3 +24,19 @@ void drawGrid(SDL_Surface *pSurface) {
   yAxis.h = HEIGHT;
   drawAtGridCoordinate(pSurface, &yAxis, GRAY);
 }
+
+void drawExpression(SDL_Surface *pSurface, const char *expr) {
+  double x;
+  te_variable vars[] = {{"x", &x}};
+
+  int err;
+  te_expr *pExpr = te_compile(expr, vars, 1, &err);
+
+  if (pExpr) {
+    double res = te_eval(pExpr);
+    printf("Result: %lf\n", res);
+  } else {
+    fprintf(stderr, "Error evaluating expression: %s\n", expr);
+    exit(-1);
+  }
+}

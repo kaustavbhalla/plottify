@@ -10,6 +10,8 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
+  const char *expr = argv[1];
+
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     printf("SDL_Init Error: %s\n", SDL_GetError());
     return 1;
@@ -28,6 +30,7 @@ int main(int argc, char *argv[]) {
   SDL_Surface *pSurface = SDL_GetWindowSurface(pWindow);
 
   drawGrid(pSurface);
+  drawExpression(pSurface, expr);
 
   SDL_Event event;
   bool app_running = true;
