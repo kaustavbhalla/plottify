@@ -33,6 +33,9 @@ void drawExpression(SDL_Surface *pSurface, const char *expr) {
   te_expr *pExpr = te_compile(expr, vars, 1, &err);
 
   if (pExpr) {
+    for (x = X_START; x < X_END; x += STEP_SIZE) {
+      double y = te_eval(pExpr);
+    }
     double res = te_eval(pExpr);
     printf("Result: %lf\n", res);
   } else {
