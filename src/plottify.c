@@ -35,6 +35,8 @@ void drawExpression(SDL_Surface *pSurface, const char *expr) {
   if (pExpr) {
     for (x = X_START; x < X_END; x += STEP_SIZE) {
       double y = te_eval(pExpr);
+      SDL_Rect pRect = (SDL_Rect){2, 2, x, y};
+      drawAtGridCoordinate(pSurface, &pRect, 0xFFFFFF);
     }
     double res = te_eval(pExpr);
     printf("Result: %lf\n", res);
