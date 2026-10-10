@@ -1,28 +1,21 @@
 #include "plottify.h"
 
-void drawAtGridCoordinate(SDL_Surface *pSurface, SDL_Rect *pRect,
+void drawAtGridCoordinate(SDL_Surface *pSurface, double x, double y,
                           Uint32 color) {
-  int xGrid = WIDTH / 2 + pRect->x;
-  int yGrid = HEIGHT / 2 - pRect->y;
+  int xGrid = WIDTH / 2 + (x * (double)X_SCALE);
+  int yGrid = HEIGHT / 2 - (y * (double)Y_SCALE);
 
-  SDL_Rect newRect = (SDL_Rect){xGrid, yGrid, pRect->w, pRect->h};
+  SDL_Rect newRect = (SDL_Rect){xGrid, yGrid, THICKNESS, THICKNESS};
   SDL_FillRect(pSurface, &newRect, color);
 }
 
 void drawGrid(SDL_Surface *pSurface) {
-  SDL_Rect xAxis;
-  xAxis.x = -(WIDTH) / 2;
-  xAxis.y = 0;
-  xAxis.w = WIDTH;
-  xAxis.h = 2;
-  drawAtGridCoordinate(pSurface, &xAxis, GRAY);
-
-  SDL_Rect yAxis;
-  yAxis.y = HEIGHT / 2;
-  yAxis.x = 0;
-  yAxis.w = 2;
-  yAxis.h = HEIGHT;
-  drawAtGridCoordinate(pSurface, &yAxis, GRAY);
+  for (double x = X_START; x < X_END; x += STEP_SIZE) {
+    drawAtGridCoordinate(pSurface, x, 0, GRAY);
+  }
+  for (double y = Y_START; y < Y_END; y += STEP_SIZE) {
+    drawAtGridCoordinate(pSurface, 0, y, GRAY);
+  }
 }
 
 void drawExpression(SDL_Surface *pSurface, const char *expr) {
@@ -35,8 +28,7 @@ void drawExpression(SDL_Surface *pSurface, const char *expr) {
   if (pExpr) {
     for (x = X_START; x < X_END; x += STEP_SIZE) {
       double y = te_eval(pExpr);
-      SDL_Rect pRect = (SDL_Rect){2, 2, x, y};
-      drawAtGridCoordinate(pSurface, &pRect, 0xFFFFFF);
+      drawAtGridCoordinate(pSurface, x, y, 0xFFFFFF);
     }
     double res = te_eval(pExpr);
     printf("Result: %lf\n", res);

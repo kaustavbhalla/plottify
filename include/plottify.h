@@ -13,7 +13,12 @@
 #define Y_END 5
 #define STEP_SIZE 0.1
 
-void drawAtGridCoordinate(SDL_Surface *pSurface, SDL_Rect *pRect, Uint32 color);
+#define X_SCALE WIDTH / (X_END - X_START)
+#define Y_SCALE HEIGHT / (Y_END - Y_START)
+
+#define THICKNESS 2
+void drawAtGridCoordinate(SDL_Surface *pSurface, double x, double y,
+                          Uint32 color);
 void drawGrid(SDL_Surface *pSurface);
 void drawExpression(SDL_Surface *pSurface, const char *expr);
 #endif
